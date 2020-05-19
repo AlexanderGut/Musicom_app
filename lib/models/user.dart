@@ -6,12 +6,14 @@ class User {
 
   final String id;
   final String name;
+  final String lastName;
   final String email;
+  final String profileId;
   final String token;
 
   static User _instance;
 
-  User({this.id, this.name, this.email, this.token}) {
+  User({this.id, this.name, this.lastName, this.email, this.profileId, this.token}) {
     _instance = this;
   }
 
@@ -32,7 +34,9 @@ class User {
       _instance = User(
           id: values['id'],
           name: values['name'],
+          lastName: values['lastName'],
           email: values['email'],
+          profileId: values['profileId'],
           token: values['token']
       );
     }
@@ -45,7 +49,9 @@ class User {
 
     await storage.write(key: 'id', value: id);
     await storage.write(key: 'name', value: name);
+    await storage.write(key: 'lastName', value: lastName);
     await storage.write(key: 'email', value: email);
+    await storage.write(key: 'profileId', value: profileId);
     await storage.write(key: 'token', value: token);
   }
 

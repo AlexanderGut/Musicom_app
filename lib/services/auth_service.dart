@@ -21,8 +21,10 @@ class AuthService {
       var body = jsonDecode(response.body);
       await User(
           id: body['id'],
-          email: body['email'],
-          name: body['name'],
+          email: email,
+          name: body['first_name'],
+          lastName: body['last_name'],
+          profileId: body['profile_id'],
           token: body['token']
       ).saveData();
     }
@@ -34,8 +36,8 @@ class AuthService {
       headers: headers,
       body: <String, String> {
         'email': email,
-        'name': name,
-        'lastName': lastName,
+        'first_name': name,
+        'last_name': lastName,
         'password': password
       }
     );
@@ -44,7 +46,9 @@ class AuthService {
       await User(
           id: body['id'],
           email: body['email'],
-          name: body['name'],
+          name: body['first_name'],
+          lastName: body['last_name'],
+          profileId: body['profile_id'],
           token: body['token']
       ).saveData();
     }

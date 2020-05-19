@@ -3,11 +3,13 @@ import 'package:http/http.dart' as http;
 
 class BackendService {
 
-  final String _baseUrl = "https://musicom.azurewebsites.net/api/v1";
+  final String _baseUrl = "https://musicom.azurewebsites.net/v1";
   var headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization': 'Bearer '
   };
+  static const params = {};
+
   static BackendService _instance;
 
   var client;
@@ -16,23 +18,32 @@ class BackendService {
     var _user = User.getInstance();
     if (_user != null) {
       headers['Authorization'] = 'Bearer ${_user.token}';
+    } else {
+      User.getData();
+      headers['Authorization'] = 'Bearer ${User.getInstance().token}';
     }
     _instance = this;
   }
 
-  BackendService getInstance() {
+  static BackendService getInstance() {
     if (_instance == null) {
       _instance = BackendService._internal();
     }
     return _instance;
   }
 
-  Future<http.Response> get(String url, Map<String, String> params) async {
+  Future<http.Response> get(String url, {Map<String, String> params}) async {
+
+    String queryString = '';
+    if (params != null) {
+      queryString = _getQueryString(params);
+    }
+
     try {
       if (client != null) {
-        return await client.get(_baseUrl + url, headers: headers);
+        return await client.get(_baseUrl + url + queryString, headers: headers);
       } else {
-        return await http.get(_baseUrl + url, headers: headers);
+        return await http.get(_baseUrl + url + queryString, headers: headers);
       }
     } catch (e) {
       return null;
@@ -51,6 +62,15 @@ class BackendService {
     }
   }
 
+  Future<http.Response> put(String url, Map<String, String> data) {
+
+    return null;
+  }
+
+  Future<http.Response> delete(String url, String id) {
+    return null;
+  }
+
   initClient() {
     if (client == null) {
       client = http.Client();
@@ -62,5 +82,9 @@ class BackendService {
       client.close();
       client = null;
     }
+  }
+
+  String _getQueryString(Map<String, String> params) {
+    return '';
   }
 }
