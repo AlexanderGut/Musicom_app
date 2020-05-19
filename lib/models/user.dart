@@ -5,13 +5,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class User {
 
   final String id;
-  final String username;
+  final String name;
   final String email;
   final String token;
 
   static User _instance;
 
-  User({this.id, this.username, this.email, this.token}) {
+  User({this.id, this.name, this.email, this.token}) {
     _instance = this;
   }
 
@@ -31,7 +31,7 @@ class User {
     if (values != null){
       _instance = User(
           id: values['id'],
-          username: values['username'],
+          name: values['name'],
           email: values['email'],
           token: values['token']
       );
@@ -44,7 +44,7 @@ class User {
     final storage = new FlutterSecureStorage();
 
     await storage.write(key: 'id', value: id);
-    await storage.write(key: 'username', value: username);
+    await storage.write(key: 'name', value: name);
     await storage.write(key: 'email', value: email);
     await storage.write(key: 'token', value: token);
   }
