@@ -35,10 +35,13 @@ class ProfileService {
     return profile;
   }
 
-  static updateProfile(String profileId, Map<String, String> data) async {
+  static Future<String> updateProfile(String profileId, Map<String, String> data) async {
     var conn = BackendService.getInstance();
     var response = await conn.put('/profile/$profileId', data);
-
+    if (response.statusCode == 200) {
+      return "Perfil actualizado correctamente";
+    }
+    return "Error al actualizar perfil";
   }
 
 }
