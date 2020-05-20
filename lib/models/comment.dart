@@ -12,8 +12,8 @@ class Comment {
     return Comment(
       user: UserProfile.fromJson(comment['user']),
       comment: comment['comment'],
-      dateTime: comment['dateTime'],
-      subComments: SubComment.listFromJson(comment['subComments'])
+      dateTime: comment['date_time'],
+      subComments: SubComment.listFromJson(comment['sub_comments'])
     );
   }
 
@@ -33,7 +33,7 @@ class SubComment {
     return SubComment(
       user: UserProfile.fromJson(comment['user']),
       comment: comment['comment'],
-      dateTime: comment['dateTime']
+      dateTime: comment['date_time']
     );
   }
 

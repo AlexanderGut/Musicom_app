@@ -9,6 +9,7 @@ class Post {
   final String content;
   final String type;
   final String date;
+  final String updateDate;
   final Profile userProfile;
   final List<Comment> comments;
 
@@ -18,6 +19,7 @@ class Post {
     this.content,
     this.type,
     this.date,
+    this.updateDate,
     this.userProfile,
     this.comments
   });
@@ -30,6 +32,7 @@ class Post {
       content: post['content'],
       type: post['type'],
       date: post['date'],
+      updateDate: post['update_date'],
       userProfile: Profile.fromJson(post['user']),
       comments: Comment.listFromJson(post['comments'])
     );

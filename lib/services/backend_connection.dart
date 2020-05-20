@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:musicomapp/models/user.dart';
 import 'package:http/http.dart' as http;
 
@@ -67,7 +68,7 @@ class BackendService {
     return null;
   }
 
-  Future<http.Response> delete(String url, String id) {
+  Future<http.Response> delete(String url) {
     return null;
   }
 
@@ -85,6 +86,14 @@ class BackendService {
   }
 
   String _getQueryString(Map<String, String> params) {
-    return '';
+    String queryString = '?';
+    List<MapEntry<String, String>> paramsList = params.entries.map((p) => p);
+    for (var i = 0; i < paramsList.length; i++) {
+      queryString += "${paramsList[i].key}=${paramsList[i].value}";
+      if (i+1 < paramsList.length) {
+        queryString += '&';
+      }
+    }
+    return queryString;
   }
 }

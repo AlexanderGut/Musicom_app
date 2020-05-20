@@ -34,13 +34,13 @@ class Profile {
     return Profile(
       id: profile['id'],
       name: profile['name'],
-      lastName: profile['lastName'],
+      lastName: profile['last_name'],
       status: profile['status'],
       bio: profile['bio'],
-      imageUrl: profile['imageUrl'],
-      youtubeLink: profile['youtubeLink'],
-      principalInstrument: profile['principalInstrument'],
-      secondaryInstruments: List<String>.from(profile['secondaryInstrument']),
+      imageUrl: profile['image_url'],
+      youtubeLink: profile['youtube_link'],
+      principalInstrument: profile['principal_instrument'],
+      secondaryInstruments: List<String>.from(profile['secondary_instrument']),
       comments: Comment.listFromJson(cJsonList)
     );
   }
@@ -54,7 +54,8 @@ class UserProfile {
   y anuncios.
   */
   final String profileId;
-  final String name; // name and last name
+  final String name;
+  final String lastName;
   final String imageUrl;
   final String state;
   final String instrument;
@@ -62,6 +63,7 @@ class UserProfile {
   UserProfile({
     this.profileId,
     this.name,
+    this.lastName,
     this.imageUrl,
     this.state,
     this.instrument
@@ -70,8 +72,9 @@ class UserProfile {
   factory UserProfile.fromJson(Map<String, dynamic> userProfile) {
     return UserProfile(
       profileId: userProfile['id'],
-      name: userProfile['name'],
-      imageUrl: userProfile['imageUrl'],
+      name: userProfile['first_name'],
+      lastName: userProfile['last_name'],
+      imageUrl: userProfile['min_image_url'],
       state: userProfile['state'],
       instrument: userProfile['instrument']
     );
