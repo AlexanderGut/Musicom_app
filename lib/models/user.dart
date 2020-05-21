@@ -24,7 +24,7 @@ class User {
     return _instance;
   }
 
-  static getData() async {
+  static Future<User> getData() async {
     /*
      */
     final storage = new FlutterSecureStorage();
@@ -40,6 +40,7 @@ class User {
           token: values['token']
       );
     }
+    return _instance;
   }
 
   saveData() async {

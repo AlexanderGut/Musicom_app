@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:musicomapp/models/user.dart';
 import 'package:http/http.dart' as http;
 
 class BackendService {
 
-  final String _baseUrl = "https://musicom.azurewebsites.net/v1";
+  final String _baseUrl = "http://192.168.0.10:5000/v1";
   var headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization': 'Bearer '
@@ -54,9 +56,9 @@ class BackendService {
   Future<http.Response> post(String url, Map<String, dynamic> data) async {
     try {
       if (client != null) {
-        return await client.post(_baseUrl+url, headers: headers, body: data);
+        return await client.post(_baseUrl+url, headers: headers, body: jsonEncode(data));
       } else {
-        return await http.post(_baseUrl+url, headers: headers, body: data);
+        return await http.post(_baseUrl+url, headers: headers, body: jsonEncode(data));
       }
     } catch (e) {
       return null;

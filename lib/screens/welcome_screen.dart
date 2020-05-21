@@ -1,7 +1,7 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:musicomapp/screens/login_screen.dart';
 
 
 class WelcomeScreen extends StatefulWidget {
@@ -26,65 +26,51 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   Widget _registerButton() {
-    return InkWell(
-      onTap: () {
-
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width-200,
-        height: 40,
-        margin: EdgeInsets.only(left: 5),
-        //margin: ,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x3C3C3C).withAlpha(100),
-              offset: Offset(2, 4),
-              blurRadius: 8,
-              spreadRadius: 2)
-          ],
-          color: Colors.purple
+    return ButtonTheme(
+      minWidth: 150,
+      height: 40,
+      child: Padding(
+        padding: EdgeInsets.all(5),
+        child: RaisedButton(
+          onPressed: () {},
+          textColor: Colors.white,
+          color: Colors.purple,
+          child: Text(
+            'Regístrate',
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600
+            ),
+          ),
         ),
-        child: Text(
-          'Registrate',
-          style: TextStyle(color: Colors.white),
-          textAlign: TextAlign.center,
-        ),
-      ),
+      )
     );
   }
 
   Widget _loginButton() {
-    return InkWell(
-      onTap: () {
-
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width-200,
-        height: 40,
-        margin: EdgeInsets.only(right: 5),
-        //margin: ,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: [
-              BoxShadow(
-                  color: Color(0x3C3C3C).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.purple
-        ),
-        child: Text(
-          'Iniciar sessión',
-          style: TextStyle(color: Colors.white),
-          textAlign: TextAlign.center,
+    return ButtonTheme(
+      minWidth: 150,
+      height: 40,
+      child: Padding(
+        padding: EdgeInsets.all(5),
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.push(
+                context, CupertinoPageRoute(builder: (context) => LoginScreen()));
+          },
+          textColor: Colors.white,
+          color: Colors.purple,
+          child: Text(
+          'Iniciar sesión',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600
+          ),
+          ),
         ),
       ),
     );
+//
   }
 
   Widget _logo() {
@@ -124,7 +110,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
-          text: "¡Conectate!\n Comienza a generar contactos\nen la escena musical.",
+          text: "¡Conéctate!\n Comienza a generar contactos\nen la escena musical.",
           style: TextStyle(
               color: Colors.black54,
               fontSize: 15,
@@ -152,7 +138,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     spreadRadius: 2)
               ],
               gradient: LinearGradient(
-                  begin: Alignment.topLeft,
+                  begin: Alignment.topRight,
                   end: Alignment.center,
                   colors: [Colors.deepPurpleAccent, Colors.white]
               )
