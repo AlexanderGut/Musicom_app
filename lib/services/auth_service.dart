@@ -12,10 +12,10 @@ class AuthService {
     var response = await post(
       "$_authUrl/login",
       headers: headers,
-      body: <String, String> {
+      body: jsonEncode(<String, String> {
         'email': email,
         'password': password
-      }
+      })
     );
     if (response.statusCode == 200){
       var body = jsonDecode(response.body);
@@ -31,27 +31,35 @@ class AuthService {
     return response;
   }
 
-  static signup(String email, String name, String lastName, String password) async {
+  static Future<Response> signup(String email, String name, String lastName, String password) async {
+    print(jsonEncode(<String, String> {
+      'email': email,
+      'first_name': name,
+      'last_name': lastName,
+      'password': password
+    }));
     var response = await post(
       "$_authUrl/signup",
       headers: headers,
-      body: <String, String> {
+      body: jsonEncode(<String, String> {
         'email': email,
         'first_name': name,
         'last_name': lastName,
         'password': password
-      }
+      })
     );
     if (response.statusCode == 200){
       var body = jsonDecode(response.body);
+      print(body);
       await User(
           id: body['id'],
-          email: body['email'],
-          name: body['first_name'],
-          lastName: body['last_name'],
+          email: email,
+          name: name,
+          lastName: lastName,
           profileId: body['profile_id'],
           token: body['token']
       ).saveData();
     }
+    return response;
   }
 }

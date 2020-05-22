@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:musicomapp/models/user.dart';
+import 'package:musicomapp/screens/register_screen.dart';
 import 'package:musicomapp/screens/welcome_screen.dart';
 
 main() async {

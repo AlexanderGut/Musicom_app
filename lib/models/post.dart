@@ -30,9 +30,9 @@ class Post {
       id: post['id'],
       title: post['title'],
       content: post['content'],
-      type: post['type'],
-      date: post['date'],
-      updateDate: post['update_date'],
+      type: post['post_type'],
+      date: post['create_at'],
+      updateDate: post['update_at'],
       userProfile: Profile.fromJson(post['user']),
       comments: Comment.listFromJson(post['comments'])
     );

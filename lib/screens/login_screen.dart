@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:musicomapp/screens/register_screen.dart';
 import 'package:musicomapp/services/auth_service.dart';
 
 
@@ -56,7 +57,7 @@ class _LoginScreen extends State<LoginScreen> {
                     controller: passwordController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Password',
+                      labelText: 'Contraseña',
                     ),
                   ),
                 ),
@@ -65,7 +66,7 @@ class _LoginScreen extends State<LoginScreen> {
                     //forgot password screen
                   },
                   textColor: Colors.blue,
-                  child: Text('Forgot Password'),
+                  child: Text('¿Olvidaste tu contraseña?'),
                 ),
                 Container(
                     height: 50,
@@ -73,7 +74,7 @@ class _LoginScreen extends State<LoginScreen> {
                     child: RaisedButton(
                       textColor: Colors.white,
                       color: Colors.purple,
-                      child: Text('Login'),
+                      child: Text('Iniciar sesión'),
                       onPressed: () async {
                         String email = emailController.text;
                         String password = passwordController.text;
@@ -91,15 +92,17 @@ class _LoginScreen extends State<LoginScreen> {
                 Container(
                     child: Row(
                       children: <Widget>[
-                        Text('Does not have account?'),
+                        Text('¿Aún no tienes cuenta?'),
                         FlatButton(
                           textColor: Colors.blue,
                           child: Text(
-                            'Sign Up',
+                            'Regístrate',
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
-                            //signup screen
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => RegisterScreen()));
                           },
                         )
                       ],

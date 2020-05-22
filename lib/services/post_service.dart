@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:http/http.dart';
 import 'package:musicomapp/models/post.dart';
 import 'package:musicomapp/models/user.dart';
 import 'package:musicomapp/services/backend_connection.dart';
@@ -45,7 +46,7 @@ class PostService {
     return post;
   }
 
-  static Future<String> updatePost(Post post) async {
+  static Future<Response> updatePost(Post post) async {
     var conn = BackendService.getInstance();
     var response = await conn.put(
         '/post/${post.id}',
@@ -55,18 +56,12 @@ class PostService {
           "content": post.content
         }
     );
-    if (response.statusCode == 200) {
-      return "El anuncio se ha modificado exitosamente";
-    }
-    return "No se ha podido publicar el anuncio";
+    return response;
   }
 
-  static Future<String> deletePost(String id) async {
+  static Future<Response> deletePost(String id) async {
     var conn = BackendService.getInstance();
     var response = await conn.delete('/post/$id');
-    if (response.statusCode == 200) {
-      return "el anuncio se ha eliminado exitosamente";
-    }
-    return "No se ha podido eliminar el anuncio";
+    return response;
   }
 }

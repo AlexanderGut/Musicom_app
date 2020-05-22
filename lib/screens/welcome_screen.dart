@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:musicomapp/screens/login_screen.dart';
+import 'package:musicomapp/screens/register_screen.dart';
 
 
 class WelcomeScreen extends StatefulWidget {
@@ -32,7 +33,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       child: Padding(
         padding: EdgeInsets.all(5),
         child: RaisedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => RegisterScreen()));
+          },
           textColor: Colors.white,
           color: Colors.purple,
           child: Text(
@@ -56,7 +60,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child: RaisedButton(
           onPressed: () {
             Navigator.push(
-                context, CupertinoPageRoute(builder: (context) => LoginScreen()));
+                context, MaterialPageRoute(builder: (context) => LoginScreen()));
           },
           textColor: Colors.white,
           color: Colors.purple,
