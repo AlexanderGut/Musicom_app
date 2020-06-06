@@ -17,8 +17,12 @@ class Comment {
     );
   }
 
-  static List<Comment> listFromJson(List<Map<String, dynamic>> commentList) {
-    return commentList.map((c) => Comment.fromJson(c));
+  static List<Comment> listFromJson(List<dynamic> commentList) {
+    List<Comment> list = List();
+    for (var i in commentList) {
+      list.add(Comment.fromJson(i));
+    }
+    return list;
   }
 }
 

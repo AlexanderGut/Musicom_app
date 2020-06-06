@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:musicomapp/screens/login_screen.dart';
+import 'package:musicomapp/screens/register_profile_screen.dart';
 import 'package:musicomapp/services/auth_service.dart';
 
 
@@ -158,9 +159,9 @@ class _RegisterScreen extends State<RegisterScreen> {
     if (readyToRegister()) {
       var response = await AuthService.signup(email, firstName, lastName, password);
       if (response.statusCode == 200) {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => LoginScreen()));
+            MaterialPageRoute(builder: (context) => RegisterProfileScreen()));
       }
     }
   }

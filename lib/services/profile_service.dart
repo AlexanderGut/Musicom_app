@@ -28,8 +28,9 @@ class ProfileService {
   static Future<Profile> fetchProfile(String id) async {
     var conn = BackendService.getInstance();
     Profile profile;
-    var response = await conn.get('/profiles/'+id);
+    var response = await conn.get('/profile/'+id);
     if (response.statusCode == 200) {
+      print(jsonDecode(response.body));
       profile = Profile.fromJson(jsonDecode(response.body));
     }
     return profile;

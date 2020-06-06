@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:musicomapp/models/profile.dart';
 import 'package:musicomapp/models/user.dart';
+import 'package:musicomapp/screens/widgets/tag_button.dart';
 import 'package:musicomapp/services/profile_service.dart';
 
 
 class ProfileScreen extends StatefulWidget {
-  final Profile profile;
+  final String profileId;
 
-  ProfileScreen({Key key, @required this.profile}) : super(key: key);
+  ProfileScreen({Key key, @required this.profileId}) : super(key: key);
 
   @override
   _ProfileScreen createState() => _ProfileScreen();
@@ -19,11 +20,13 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreen extends State<ProfileScreen> {
 
   Profile user;
-
+  String profileId;
+  bool _load = false;
   @override
   void initState() {
     super.initState();
-    user = widget.profile;
+    Profile user;
+
   }
 
   @override
@@ -37,23 +40,51 @@ class _ProfileScreen extends State<ProfileScreen> {
           backgroundColor: Colors.transparent,
           body: Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: ListView(
-              children: <Widget>[
-                headProfile(),
-                divider(),
-                bioInfo(),
-                divider(),
-                instrument(),
-                divider(),
-                styles(),
-                divider(),
-                media(),
-                divider()
-              ],
-            ),
-          ),
+            child: FutureBuilder(
+              builder: (context, i) {
+                if (!_load) {
+                  if (User.getInstance().profileId != null) {
+                    ProfileService.fetchProfile(User.getInstance().profileId)
+                      .then((value) {
+                      this.setState(() {
+                        print(value);
+                        user = value;
+                        _load = true;
+                      });
+                    });
+                  } else if (profileId.isNotEmpty) {
+                      ProfileService.fetchProfile(profileId)
+                        .then((value) {
+                        this.setState(() {
+                          print(value);
+                          user = value;
+                          _load = true;
+                      });
+                    });
+                  }
+                }
+                if (user != null) {
+                  return ListView(
+                    children: [
+                      headProfile(),
+                      divider(),
+                      bioInfo(),
+                      divider(),
+                      instrument(),
+                      divider(),
+                      styles(),
+                      divider(),
+                      media(),
+                      divider()
+                    ]
+                  );
+                }
+                return Center(child: CircularProgressIndicator());
+              }
+            )
+          )
         ),
-      )
+      ),
     );
   }
 
@@ -110,7 +141,7 @@ class _ProfileScreen extends State<ProfileScreen> {
           Container(
             padding: EdgeInsets.only(top: 10),
             child: Text(
-              user.status,
+              user.status != null ? user.status : "",
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500
@@ -139,7 +170,7 @@ class _ProfileScreen extends State<ProfileScreen> {
             padding: EdgeInsets.only(top: 10),
           ),
           Text(
-            "If that's not a good fit for whatever reason, you can use find.byWidgetPredicate and pass a function that matches RichText widgets whose text.toPlainText() returns the string you want",
+            user.bio != null ? user.bio : "",
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontStyle: FontStyle.italic
@@ -197,7 +228,7 @@ class _ProfileScreen extends State<ProfileScreen> {
           ),
           Padding(padding: EdgeInsets.only(top: 10)),
           Text(
-            "Guitarra"
+            user.principalInstrument
           )
         ],
       ),
@@ -217,24 +248,20 @@ class _ProfileScreen extends State<ProfileScreen> {
             )
           ),
           Padding(padding: EdgeInsets.only(top: 10)),
-          Text(
-            ""//stylesString(user.styles)
+          Wrap(
+            children: stylesTag(user.styles),
           )
         ],
       )
     );
   }
 
-  stylesString(List<String> styles) {
-    String str = "";
-    for (var i = 0; i < styles.length;i++) {
-      if (i!=styles.length-1) {
-        str += "${styles[i]}, ";
-      } else {
-        str += styles[i];
-      }
+  stylesTag(List<String> styles) {
+    List<Widget> list = List();
+    for (var s in styles) {
+      list.add(TagButton(tag: s));
     }
-    return str;
+    return list;
   }
 }
 

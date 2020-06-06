@@ -43,6 +43,7 @@ class Profile {
       youtubeLink: profile['youtube_link'],
       principalInstrument: profile['principal_instrument'],
       secondaryInstruments: List<String>.from(profile['secondary_instrument']),
+      styles: List<String>.from(profile['music_styles']),
       comments: Comment.listFromJson(cJsonList)
     );
   }

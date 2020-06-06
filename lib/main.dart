@@ -25,11 +25,11 @@ class Musicom extends StatelessWidget {
 
   _initialScreen() {
     User user = User.getInstance();
-    if (user == null) {
+    if (user.profileId == null) {
       return WelcomeScreen();
     }
     var puser = Profile(name: "Alexander", lastName: "Gutiérrez", status: "Hola pirinola");
-    return RegisterProfileScreen(); // añadir otro home
+    return ProfileScreen(profileId: user.profileId); // añadir otro home
   }
 }
 

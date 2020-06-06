@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:musicomapp/models/profile.dart';
 import 'package:musicomapp/models/user.dart';
 import 'package:musicomapp/screens/profile_screen.dart';
+import 'package:musicomapp/screens/widgets/tag_button.dart';
 import 'package:musicomapp/services/profile_service.dart';
 
 ///
@@ -126,7 +127,7 @@ class _RegisterProfileScreen extends State<RegisterProfileScreen> {
     List<Widget> tags = List();
     for (var style in _styles) {
       tags.add(
-        TagButton(style: style, onPressed: () {
+        TagButton(tag: style, pressed: false, onPressed: () {
           if (!styles.contains(style)) {
             styles.add(style);
           } else {
@@ -171,59 +172,7 @@ class _RegisterProfileScreen extends State<RegisterProfileScreen> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => ProfileScreen(profile: userProfile)
-      )
-    );
-  }
-}
-
-class TagButton extends StatefulWidget {
-
-  final String style;
-  final VoidCallback onPressed;
-
-  TagButton({Key key, @required this.style, this.onPressed}) : super(key: key);
-
-  @override
-  _TagButton createState() => _TagButton();
-}
-
-class _TagButton extends State<TagButton> {
-  String style;
-  Color color;
-  VoidCallback onPressed;
-  var pressed = false;
-
-  @override
-  void initState() {
-    super.initState();
-    style = widget.style;
-    onPressed = widget.onPressed;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(2),
-      height: 20,
-      child: ButtonTheme(
-        minWidth: 20,
-        child: FlatButton(
-          child: Text(
-            style,
-            style: TextStyle(
-                fontSize: 12,
-                color: pressed ? Colors.white :  Theme.of(context).textTheme.bodyText1.color
-            ),
-          ),
-          color: pressed ? Colors.purple : Colors.grey.withAlpha(60),
-          onPressed: () {
-            setState(() {
-              pressed = !pressed;
-            });
-            onPressed();
-          },
-        ),
+      MaterialPageRoute(builder: (context) => ProfileScreen(profileId: user.profileId)
       )
     );
   }

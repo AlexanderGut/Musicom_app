@@ -94,18 +94,10 @@ class _LoginScreen extends State<LoginScreen> {
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () async {
-                            Profile user = Profile(name: "Alexander", status: "Hola pirinola");
-//                            user = await ProfileService.fetchProfile(
-//                                User.getInstance().profileId
-//                            );
-                            if (user != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfileScreen(profile: user)
-                                )
-                              );
-                            }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => RegisterScreen())
+                            );
                           },
                         )
                       ],
@@ -118,14 +110,20 @@ class _LoginScreen extends State<LoginScreen> {
   }
 
   login() async {
-    String email = emailController.text;
-    String password = passwordController.text;
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
     if (readyToLogin()){
       var res = await AuthService.login(email, password);
       if (res.statusCode == 200) {
         print(jsonDecode(res.body));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ProfileScreen(
+                  profileId: User.getInstance().profileId)
+          )
+        );
       } else {
-        print(jsonDecode(res.body));
       }
     }
   }
