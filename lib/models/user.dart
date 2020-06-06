@@ -25,8 +25,7 @@ class User {
   }
 
   static Future<User> getData() async {
-    /*
-     */
+
     final storage = new FlutterSecureStorage();
 
     Map<String, String> values = await storage.readAll();

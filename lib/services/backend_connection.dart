@@ -65,9 +65,12 @@ class BackendService {
     }
   }
 
-  Future<http.Response> put(String url, Map<String, String> data) {
-
-    return null;
+  Future<http.Response> put(String url, Map<String, dynamic> data) async {
+    try {
+      return await http.put(_baseUrl+url, headers: headers, body: jsonEncode(data));
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<http.Response> delete(String url) {

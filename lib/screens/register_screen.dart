@@ -1,9 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:musicomapp/screens/login_screen.dart';
-import 'package:musicomapp/screens/welcome_screen.dart';
 import 'package:musicomapp/services/auth_service.dart';
 
 
@@ -19,6 +18,7 @@ class _RegisterScreen extends State<RegisterScreen> {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+
   _RegisterScreen() {
     emailController.addListener(emailListener);
     firstNameController.addListener(firstNameListener);
@@ -28,23 +28,18 @@ class _RegisterScreen extends State<RegisterScreen> {
   }
 
   void emailListener() {
-    //
   }
 
   void firstNameListener() {
-
   }
 
   void lastNameListener() {
-
   }
 
   void passwordListener() {
-    //
   }
 
   void confirmPasswordListener() {
-
   }
 
   @override
@@ -71,9 +66,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   ),
                 ),
                 Container(
-                  //margin: EdgeInsets.only(top: 10),
                   height: 60,
-
                   padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                   child: TextField(
                     controller: firstNameController,
@@ -84,9 +77,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   ),
                 ),
                 Container(
-                  //margin: EdgeInsets.only(top: 10),
                   height: 60,
-
                   padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                   child: TextField(
                     controller: lastNameController,
@@ -99,7 +90,6 @@ class _RegisterScreen extends State<RegisterScreen> {
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                   height: 60,
-
                   child: TextField(
                     obscureText: true,
                     controller: passwordController,
@@ -112,7 +102,6 @@ class _RegisterScreen extends State<RegisterScreen> {
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                   height: 60,
-
                   child: TextField(
                     obscureText: true,
                     controller: confirmPasswordController,
@@ -161,24 +150,78 @@ class _RegisterScreen extends State<RegisterScreen> {
   }
 
   register() async {
-    String email = emailController.text;
-    String firstName = firstNameController.text;
-    String lastName = lastNameController.text;
-    String password = passwordController.text;
-    String confirmPassword = confirmPasswordController.text;
-    if (email.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty &&
-        firstName.isNotEmpty && lastName.isNotEmpty){
-      if (password == confirmPassword) {
-        var res = await AuthService.signup(email, firstName, lastName, password);
-        if (res.statusCode == 200) {
-          print(jsonDecode(res.body));
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => WelcomeScreen()));
-        } else {
-          print(jsonDecode(res.body));
-        }
+    String email = emailController.text.trim();
+    String firstName = firstNameController.text.trim();
+    String lastName = lastNameController.text.trim();
+    String password = passwordController.text.trim();
+
+    if (readyToRegister()) {
+      var response = await AuthService.signup(email, firstName, lastName, password);
+      if (response.statusCode == 200) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()));
       }
     }
+  }
+
+  bool readyToRegister() {
+    var email = emailController.text.isNotEmpty;
+    var firstName = firstNameController.text.isNotEmpty;
+    var lastName = lastNameController.text.isNotEmpty;
+    var password = passwordController.text.isNotEmpty;
+    var confirmPassword = confirmPasswordController.text.isNotEmpty;
+    if (!email) {
+      Fluttertoast.showToast(
+          msg: "El email no puede estar vacío",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.purple,
+          textColor: Colors.white,
+          fontSize: 15.0
+      );
+    } else if (!firstName) {
+      Fluttertoast.showToast(
+          msg: "El nombre no puede estar vacío",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.purple,
+          textColor: Colors.white,
+          fontSize: 15.0
+      );
+    } else if (!lastName) {
+      Fluttertoast.showToast(
+          msg: "El apellido no puede estar vacío",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.purple,
+          textColor: Colors.white,
+          fontSize: 15.0
+      );
+    } else if (!password) {
+      Fluttertoast.showToast(
+          msg: "La contraseña no puede estar vacía",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.purple,
+          textColor: Colors.white,
+          fontSize: 15.0
+      );
+    } else if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
+      Fluttertoast.showToast(
+          msg: "Las contraseñas deben coincidir",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.purple,
+          textColor: Colors.white,
+          fontSize: 15.0
+      );
+    }
+    return email && firstName && lastName && password && confirmPassword;
   }
 }

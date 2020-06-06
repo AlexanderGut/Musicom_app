@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:musicomapp/models/user.dart';
+import 'package:musicomapp/screens/profile_screen.dart';
+import 'package:musicomapp/screens/register_profile_screen.dart';
 import 'package:musicomapp/screens/register_screen.dart';
 import 'package:musicomapp/screens/welcome_screen.dart';
+
+import 'models/profile.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +28,8 @@ class Musicom extends StatelessWidget {
     if (user == null) {
       return WelcomeScreen();
     }
-    return WelcomeScreen(); // añadir otro home
+    var puser = Profile(name: "Alexander", lastName: "Gutiérrez", status: "Hola pirinola");
+    return RegisterProfileScreen(); // añadir otro home
   }
 }
 

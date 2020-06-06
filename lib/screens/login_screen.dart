@@ -1,9 +1,14 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:musicomapp/models/profile.dart';
+import 'package:musicomapp/models/user.dart';
+import 'package:musicomapp/screens/profile_screen.dart';
 import 'package:musicomapp/screens/register_screen.dart';
 import 'package:musicomapp/services/auth_service.dart';
+import 'package:musicomapp/services/profile_service.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -22,7 +27,7 @@ class _LoginScreen extends State<LoginScreen> {
   }
 
   void emailListener() {
-    //
+    // email validation
   }
 
   void passwordListener() {
@@ -75,18 +80,7 @@ class _LoginScreen extends State<LoginScreen> {
                       textColor: Colors.white,
                       color: Colors.purple,
                       child: Text('Iniciar sesión'),
-                      onPressed: () async {
-                        String email = emailController.text;
-                        String password = passwordController.text;
-                        if (email.isNotEmpty && password.isNotEmpty){
-                          var res = await AuthService.login(email, password);
-                          if (res.statusCode == 200) {
-                            print(jsonDecode(res.body));
-                          } else {
-                            print(jsonDecode(res.body));
-                          }
-                        }
-                      },
+                      onPressed: login
                     )
                 ),
                 Container(
@@ -99,10 +93,19 @@ class _LoginScreen extends State<LoginScreen> {
                             'Regístrate',
                             style: TextStyle(fontSize: 20),
                           ),
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            Profile user = Profile(name: "Alexander", status: "Hola pirinola");
+//                            user = await ProfileService.fetchProfile(
+//                                User.getInstance().profileId
+//                            );
+                            if (user != null) {
+                              Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => RegisterScreen()));
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileScreen(profile: user)
+                                )
+                              );
+                            }
                           },
                         )
                       ],
@@ -112,5 +115,43 @@ class _LoginScreen extends State<LoginScreen> {
             )
         )
     );
+  }
+
+  login() async {
+    String email = emailController.text;
+    String password = passwordController.text;
+    if (readyToLogin()){
+      var res = await AuthService.login(email, password);
+      if (res.statusCode == 200) {
+        print(jsonDecode(res.body));
+      } else {
+        print(jsonDecode(res.body));
+      }
+    }
+  }
+
+  bool readyToLogin() {
+    var email = emailController.text.isNotEmpty;
+    var password = passwordController.text.isNotEmpty;
+    if (!email) {
+      Fluttertoast.showToast(
+          msg: "El email no puede estar vacío",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.purple,
+          textColor: Colors.white,
+          fontSize: 15.0);
+    } else if (!password) {
+        Fluttertoast.showToast(
+            msg: "Ingrese la contraseña",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.purple,
+            textColor: Colors.white,
+            fontSize: 15.0);
+    }
+    return email && password;
   }
 }

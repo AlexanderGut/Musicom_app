@@ -32,12 +32,6 @@ class AuthService {
   }
 
   static Future<Response> signup(String email, String name, String lastName, String password) async {
-    print(jsonEncode(<String, String> {
-      'email': email,
-      'first_name': name,
-      'last_name': lastName,
-      'password': password
-    }));
     var response = await post(
       "$_authUrl/signup",
       headers: headers,

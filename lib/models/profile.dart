@@ -10,6 +10,7 @@ class Profile {
     final String imageUrl;
     final String principalInstrument;
     final List<String> secondaryInstruments;
+    final List<String> styles;
     final String youtubeLink; // evaluar
     final List<Comment> comments;
 
@@ -23,6 +24,7 @@ class Profile {
       this.youtubeLink,
       this.principalInstrument,
       this.secondaryInstruments,
+      this.styles,
       this.comments
     });
 
