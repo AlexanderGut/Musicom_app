@@ -10,7 +10,8 @@ class Post {
   final String type;
   final String date;
   final String updateDate;
-  final Profile userProfile;
+  final UserProfile userProfile;
+  final List<String> tags;
   final List<Comment> comments;
 
   Post({
@@ -21,6 +22,7 @@ class Post {
     this.date,
     this.updateDate,
     this.userProfile,
+    this.tags,
     this.comments
   });
 
@@ -33,7 +35,8 @@ class Post {
       type: post['post_type'],
       date: post['create_at'],
       updateDate: post['update_at'],
-      userProfile: Profile.fromJson(post['user']),
+      userProfile: UserProfile.fromJson(post['user']),
+      tags: List.of(post['tags']),
       comments: Comment.listFromJson(post['comments'])
     );
 

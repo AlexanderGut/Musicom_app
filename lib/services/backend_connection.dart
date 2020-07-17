@@ -92,9 +92,11 @@ class BackendService {
 
   String _getQueryString(Map<String, String> params) {
     String queryString = '?';
-    List<MapEntry<String, String>> paramsList = params.entries.map((p) => p);
-    for (var i = 0; i < paramsList.length; i++) {
-      queryString += "${paramsList[i].key}=${paramsList[i].value}";
+    List<Map<String, String>> paramsList = List();
+
+    for (var i = 0; i < params.keys.toList().length; i++) {
+      var key = params.keys.toList()[i];
+      queryString += "$key=${params[key]}";
       if (i+1 < paramsList.length) {
         queryString += '&';
       }

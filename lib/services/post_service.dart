@@ -33,11 +33,15 @@ class PostService {
     Post post;
     var response = await conn.post(
         '/posts',
-        <String, String> {
+        <String, dynamic> {
           "title": post.title,
-          "type": post.type,
           "content": post.content,
-          "profile_id": User.getInstance().profileId
+          "tags": post.tags,
+          "user": <String, String> {
+            "profile_id": post.userProfile.profileId,
+            "name": post.userProfile.name,
+            "img_url": post.userProfile.imageUrl
+          }
         }
     );
     if (response.statusCode == 200) {

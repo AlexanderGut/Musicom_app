@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:musicomapp/models/user.dart';
+import 'package:musicomapp/screens/new_post_screen.dart';
+import 'package:musicomapp/screens/posts_screen.dart';
 import 'package:musicomapp/screens/profile_screen.dart';
-import 'package:musicomapp/screens/register_profile_screen.dart';
-import 'package:musicomapp/screens/register_screen.dart';
+import 'package:musicomapp/screens/user_list_screen.dart';
 import 'package:musicomapp/screens/welcome_screen.dart';
 
 import 'models/profile.dart';
@@ -19,7 +19,7 @@ class Musicom extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Musicom App',
-      home: _initialScreen(),
+      home: NewPostScreen(),
     );
   }
 
@@ -28,8 +28,7 @@ class Musicom extends StatelessWidget {
     if (user.profileId == null) {
       return WelcomeScreen();
     }
-    var puser = Profile(name: "Alexander", lastName: "Gutiérrez", status: "Hola pirinola");
-    return ProfileScreen(profileId: user.profileId); // añadir otro home
+    return UserListScreen(); // añadir otro home
   }
 }
 

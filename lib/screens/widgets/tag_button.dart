@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 
 class TagButton extends StatefulWidget {
+  static _TagButton of(BuildContext context) => context.findAncestorStateOfType();
 
   final String tag;
   final VoidCallback onPressed;
@@ -17,7 +18,7 @@ class _TagButton extends State<TagButton> {
   String tag;
   Color color;
   VoidCallback onPressed;
-  var _pressed = false;
+  var pressed = false;
 
   @override
   void initState() {
@@ -38,16 +39,16 @@ class _TagButton extends State<TagButton> {
               tag,
               style: TextStyle(
                   fontSize: 12,
-                  color: _pressed || widget.pressed ? Colors.white
+                  color: pressed || widget.pressed ? Colors.white
                       :  Theme.of(context).textTheme.bodyText1.color
               ),
             ),
-            color: _pressed || widget.pressed ? Colors.purple
+            color: pressed || widget.pressed ? Colors.purple
                 : Colors.grey.withAlpha(60),
             onPressed: () {
               if (!widget.pressed) {
                 setState(() {
-                  _pressed = !_pressed;
+                  pressed = !pressed;
                 });
                 onPressed();
               }

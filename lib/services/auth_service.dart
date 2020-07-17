@@ -25,6 +25,7 @@ class AuthService {
         name: body['first_name'],
         lastName: body['last_name'],
         profileId: body['profile_id'],
+        imgUrl: body['img_url'],
         token: body['token']
       ).saveData();
     }

@@ -9,11 +9,13 @@ class User {
   final String lastName;
   final String email;
   final String profileId;
+  final String imgUrl;
   final String token;
 
   static User _instance;
 
-  User({this.id, this.name, this.lastName, this.email, this.profileId, this.token}) {
+  User({this.id, this.name, this.lastName,
+  this.email, this.profileId, this.imgUrl, this.token}) {
     _instance = this;
   }
 

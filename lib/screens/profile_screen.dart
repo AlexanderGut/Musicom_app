@@ -22,6 +22,7 @@ class _ProfileScreen extends State<ProfileScreen> {
   Profile user;
   String profileId;
   bool _load = false;
+  bool _waiting = false;
   @override
   void initState() {
     super.initState();
@@ -42,7 +43,8 @@ class _ProfileScreen extends State<ProfileScreen> {
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: FutureBuilder(
               builder: (context, i) {
-                if (!_load) {
+                if (!_load || !_waiting) {
+                  _waiting = true;
                   if (User.getInstance().profileId != null) {
                     ProfileService.fetchProfile(User.getInstance().profileId)
                       .then((value) {
@@ -108,24 +110,7 @@ class _ProfileScreen extends State<ProfileScreen> {
             child: Container(
               width: 110,
               height: 110,
-              child: CachedNetworkImage(
-                imageUrl: "https://i.imgur.com/BoN9kdC.png",
-                imageBuilder: (context, imageProvider) => Container(
-                  decoration: new BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 4
-                    ),
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: imageProvider
-                    )
-                  ),
-                ),
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
+              child: image()
             ),
           ),
           Container(
@@ -262,6 +247,44 @@ class _ProfileScreen extends State<ProfileScreen> {
       list.add(TagButton(tag: s));
     }
     return list;
+  }
+
+  image() {
+    if (user.imageUrl != null) {
+      return CachedNetworkImage(
+        imageUrl: "https://i.imgur.com/BoN9kdC.png", // user.imageUrl
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                  color: Colors.white,
+                  width: 4
+              ),
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: imageProvider
+              )
+          ),
+        ),
+        placeholder: (context, url) => CircularProgressIndicator(),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      );
+    } else {
+      return Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.white,
+            width: 4
+          ),
+          shape: BoxShape.circle,
+          color: Colors.white,
+          image: DecorationImage(
+            fit: BoxFit.fill,
+            image: AssetImage("assets/images/default-profile.png")
+          )
+        ),
+      );
+    }
   }
 }
 

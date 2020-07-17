@@ -7,9 +7,12 @@ class ProfileService {
   static Future<List<UserProfile>> fetchUserProfiles({Map<String, String> filters}) async {
     var conn = BackendService.getInstance();
     List<UserProfile> userProfiles;
-    var response = await conn.get('/userProfiles', params: filters);
+    var response = await conn.get('/profiles', params: filters);
     if (response.statusCode == 200){
-      userProfiles = UserProfile.listFromJson(jsonDecode(response.body));
+      var body = jsonDecode(response.body);
+      var list = body['users'] as List;
+      print(body);
+      userProfiles = UserProfile.listFromJson(list);
     }
 
     return userProfiles;
@@ -28,7 +31,7 @@ class ProfileService {
   static Future<Profile> fetchProfile(String id) async {
     var conn = BackendService.getInstance();
     Profile profile;
-    var response = await conn.get('/profile/'+id);
+    var response = await conn.get('/profiles/'+id);
     if (response.statusCode == 200) {
       print(jsonDecode(response.body));
       profile = Profile.fromJson(jsonDecode(response.body));
@@ -36,13 +39,13 @@ class ProfileService {
     return profile;
   }
 
-  static Future<String> updateProfile(String profileId, Map<String, dynamic> data) async {
+  static Future<UserProfile> updateProfile(String profileId, Map<String, dynamic> data) async {
     var conn = BackendService.getInstance();
-    var response = await conn.put('/profile/$profileId', data);
+    var response = await conn.put('/profiles/$profileId', data);
     if (response.statusCode == 200) {
-      return "Perfil actualizado correctamente";
+      return UserProfile.fromJson(jsonDecode(response.body));
     }
-    return "Error al actualizar perfil";
+    return null;
   }
 
 }

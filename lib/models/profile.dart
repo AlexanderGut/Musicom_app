@@ -58,32 +58,29 @@ class UserProfile {
   */
   final String profileId;
   final String name;
-  final String lastName;
   final String imageUrl;
-  final String state;
+  final String status;
   final String instrument;
 
   UserProfile({
     this.profileId,
     this.name,
-    this.lastName,
     this.imageUrl,
-    this.state,
+    this.status,
     this.instrument
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> userProfile) {
     return UserProfile(
       profileId: userProfile['id'],
-      name: userProfile['first_name'],
-      lastName: userProfile['last_name'],
+      name: userProfile['name'],
       imageUrl: userProfile['min_image_url'],
-      state: userProfile['state'],
+      status: userProfile['status'],
       instrument: userProfile['instrument']
     );
   }
   
-  static List<UserProfile> listFromJson(List<Map<String, dynamic>> upList) {
-    return upList.map((u) => UserProfile.fromJson(u));
+  static List<UserProfile> listFromJson(List<dynamic> upList) {
+    return upList.map((u) => UserProfile.fromJson(u)).toList();
   }
 }

@@ -7,6 +7,7 @@ import 'package:musicomapp/models/profile.dart';
 import 'package:musicomapp/models/user.dart';
 import 'package:musicomapp/screens/profile_screen.dart';
 import 'package:musicomapp/screens/register_screen.dart';
+import 'package:musicomapp/screens/user_list_screen.dart';
 import 'package:musicomapp/services/auth_service.dart';
 import 'package:musicomapp/services/profile_service.dart';
 
@@ -119,9 +120,7 @@ class _LoginScreen extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => ProfileScreen(
-                  profileId: User.getInstance().profileId)
-          )
+            builder: (context) => UserListScreen())
         );
       } else {
       }
