@@ -26,8 +26,7 @@ class _ProfileScreen extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    Profile user;
-
+    profileId = widget.profileId;
   }
 
   @override
@@ -45,25 +44,14 @@ class _ProfileScreen extends State<ProfileScreen> {
               builder: (context, i) {
                 if (!_load || !_waiting) {
                   _waiting = true;
-                  if (User.getInstance().profileId != null) {
-                    ProfileService.fetchProfile(User.getInstance().profileId)
-                      .then((value) {
+                  ProfileService.fetchProfile(profileId)
+                    .then((value) {
                       this.setState(() {
-                        print(value);
-                        user = value;
-                        _load = true;
-                      });
-                    });
-                  } else if (profileId.isNotEmpty) {
-                      ProfileService.fetchProfile(profileId)
-                        .then((value) {
-                        this.setState(() {
                           print(value);
                           user = value;
                           _load = true;
                       });
                     });
-                  }
                 }
                 if (user != null) {
                   return ListView(
@@ -77,7 +65,8 @@ class _ProfileScreen extends State<ProfileScreen> {
                       styles(),
                       divider(),
                       media(),
-                      divider()
+                      divider(),
+                      contact()
                     ]
                   );
                 }
@@ -285,6 +274,25 @@ class _ProfileScreen extends State<ProfileScreen> {
         ),
       );
     }
+  }
+
+  contact() {
+    return Container(
+      padding: EdgeInsets.only(left: 20, top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Contacto:",
+            style: TextStyle(
+              fontWeight: FontWeight.w700
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(top: 10),),
+          Text(user.email)
+        ],
+      ),
+    );
   }
 }
 

@@ -27,7 +27,10 @@ class Post {
   });
 
   factory Post.fromJson(Map<String, dynamic> post) {
-
+    List<String> tags = List();
+    for(var t in post["tags"]) {
+      tags.add(t.toString());
+    }
     Post p = Post(
       id: post['id'],
       title: post['title'],
@@ -36,15 +39,15 @@ class Post {
       date: post['create_at'],
       updateDate: post['update_at'],
       userProfile: UserProfile.fromJson(post['user']),
-      tags: List.of(post['tags']),
+      tags: tags,
       comments: Comment.listFromJson(post['comments'])
     );
 
     return p;
   }
 
-  static List<Post> listFromJson(List<Map<String, dynamic>> postList) {
-    return postList.map((p) => Post.fromJson(p));
+  static List<Post> listFromJson(List<dynamic> postList) {
+    return postList.map((p) => Post.fromJson(p)).toList();
   }
 
 }

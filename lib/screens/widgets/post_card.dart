@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:musicomapp/models/post.dart';
 import 'package:musicomapp/screens/widgets/tag_button.dart';
 
+import '../post_screen.dart';
+
 class PostCard extends StatelessWidget {
 
   final Post post;
@@ -41,6 +43,12 @@ class PostCard extends StatelessWidget {
               ),
               title: Text(post.title),
               contentPadding: EdgeInsets.all(10),
+              onTap: () async {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => PostScreen(post: post))
+                );
+              },
             ),
             Container(
               color: Colors.grey.withAlpha(60),
@@ -52,7 +60,7 @@ class PostCard extends StatelessWidget {
               ),
             )
           ],
-        )
+        ),
       ),
     );
   }

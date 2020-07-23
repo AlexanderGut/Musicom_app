@@ -57,4 +57,10 @@ class User {
     await storage.write(key: 'token', value: token);
   }
 
+  static removeData() async {
+    final storage = new FlutterSecureStorage();
+
+    await storage.deleteAll();
+  }
+
 }

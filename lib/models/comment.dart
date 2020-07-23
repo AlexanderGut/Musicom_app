@@ -3,26 +3,58 @@ import 'package:musicomapp/models/profile.dart';
 class Comment {
   final UserProfile user;
   final String comment;
+  final bool subComment;
   final String dateTime;
-  final List<SubComment> subComments;
+  final List<Comment> subComments;
 
-  Comment({this.user, this.comment, this.dateTime, this.subComments});
+  Comment({this.user, this.comment, this.subComment, this.dateTime, this.subComments});
 
   factory Comment.fromJson(Map<String, dynamic> comment) {
     return Comment(
-      user: UserProfile.fromJson(comment['user']),
+      user: UserProfile(
+        profileId: comment["user"]["profile_id"],
+        imageUrl: comment["user"]["img_url"],
+        name: comment["user"]["name"]
+      ),
       comment: comment['comment'],
-      dateTime: comment['date_time'],
-      subComments: SubComment.listFromJson(comment['sub_comments'])
+      dateTime: comment['create_at'],
+      subComments: Comment.listFromJson(comment['comments'])
     );
   }
 
   static List<Comment> listFromJson(List<dynamic> commentList) {
     List<Comment> list = List();
-    for (var i in commentList) {
-      list.add(Comment.fromJson(i));
+    if (commentList != null) {
+      for (var i in commentList) {
+        list.add(Comment.fromJson(i));
+      }
+      return list;
+    } else {
+      return [];
     }
-    return list;
+  }
+
+  static List<Map<String, dynamic>> listToJson(List<Comment> comments) {
+    List<Map<String, dynamic>> commentsList = List();
+    for(var c in comments) {
+      List<Map<String, dynamic>> sub = List();
+//      if(c.subComment) {
+//        sub.addAll(Comment.listToJson(c.subComments));
+//      }
+      commentsList.add(
+        <String, dynamic> {
+          "comment": c.comment,
+          "sub_comment": c.subComment,
+          "user": <String, String> {
+            "profile_id": c.user.profileId,
+            "name": c.user.name,
+            "img_url": c.user.imageUrl
+          },
+          "comments": sub
+        }
+      );
+    }
+    return commentsList;
   }
 }
 

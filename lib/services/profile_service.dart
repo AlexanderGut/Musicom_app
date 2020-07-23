@@ -4,10 +4,10 @@ import 'package:musicomapp/services/backend_connection.dart';
 
 class ProfileService {
 
-  static Future<List<UserProfile>> fetchUserProfiles({Map<String, String> filters}) async {
+  static Future<List<UserProfile>> fetchUserProfiles({Map<String, dynamic> filters}) async {
     var conn = BackendService.getInstance();
     List<UserProfile> userProfiles;
-    var response = await conn.get('/profiles', params: filters);
+    var response = await conn.post('/profiles', filters);
     if (response.statusCode == 200){
       var body = jsonDecode(response.body);
       var list = body['users'] as List;
@@ -22,6 +22,7 @@ class ProfileService {
     var conn = BackendService.getInstance();
     UserProfile userProfile;
     var response = await conn.get('/userProfiles/'+id);
+    print(id);
     if (response.statusCode == 200) {
       userProfile = UserProfile.fromJson(jsonDecode(response.body));
     }
@@ -39,11 +40,12 @@ class ProfileService {
     return profile;
   }
 
-  static Future<UserProfile> updateProfile(String profileId, Map<String, dynamic> data) async {
+  static Future<Profile> updateProfile(String profileId, Map<String, dynamic> data) async {
     var conn = BackendService.getInstance();
     var response = await conn.put('/profiles/$profileId', data);
+    print(jsonDecode(response.body));
     if (response.statusCode == 200) {
-      return UserProfile.fromJson(jsonDecode(response.body));
+      return Profile.fromJson(jsonDecode(response.body));
     }
     return null;
   }

@@ -28,8 +28,12 @@ class _UserListScreen extends State {
 
   @override
   void initState() {
+    filters.clear();
     ProfileService.fetchUserProfiles(
-      filters: <String, String>{'profile_id': User.getInstance().profileId}
+      filters: <String, dynamic>{
+        'profile_id': User.getInstance().profileId,
+        'filters': filters
+      }
     ).then((value) {
       setState(() {
         users.addAll(value);
@@ -42,9 +46,6 @@ class _UserListScreen extends State {
   Widget build(BuildContext context) {
     return  Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.filter_list),
-      ),
       body: Container(
         child: Column(
           children: <Widget>[
@@ -110,9 +111,7 @@ class _UserListScreen extends State {
       itemBuilder: (context, index) {
         if (users.length > 0) {
           if (index == users.length) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return Container();
           } else {
             return UserCard(users[index]);
           }
@@ -143,10 +142,37 @@ class _UserListScreen extends State {
           pressed: false,
           onPressed: () async {
             if (filters.contains(t)) {
-              filters.remove(t);
+              setState(() {
+                filters.remove(t);
+                ProfileService.fetchUserProfiles(
+                    filters: <String, dynamic>{
+                      'profile_id': User.getInstance().profileId,
+                      'filters': filters
+                    }
+                ).then((value) {
+                  setState(() {
+                    users.clear();
+                    users.addAll(value);
+                  });
+                });
+              });
             } else {
-              filters.add(t);
+              setState(() {
+                filters.add(t);
+                ProfileService.fetchUserProfiles(
+                    filters: <String, dynamic>{
+                      'profile_id': User.getInstance().profileId,
+                      'filters': filters
+                    }
+                ).then((value) {
+                  setState(() {
+                    users.clear();
+                    users.addAll(value);
+                  });
+                });
+              });
             }
+            print(filters);
           },
         )
       );

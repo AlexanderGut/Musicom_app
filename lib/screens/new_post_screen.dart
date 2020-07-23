@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:musicomapp/models/post.dart';
 import 'package:musicomapp/models/profile.dart';
 import 'package:musicomapp/models/user.dart';
+import 'package:musicomapp/screens/post_screen.dart';
 import 'package:musicomapp/screens/widgets/tag_button.dart';
 import 'package:musicomapp/services/post_service.dart';
 
@@ -120,17 +121,22 @@ class _NewPostScreen extends State<NewPostScreen> {
                 child: Text("Publicar"),
                 onPressed: () async {
                   User user = User.getInstance();
+                  print(titleController.text);
                   Post post = Post(
                     title: titleController.text,
                     content: contentController.text,
-                    tags: tags,
+                    tags: tags.cast<String>().toList(),
                     userProfile: UserProfile(
                       profileId: user.profileId,
                       name: "${user.name} ${user.lastName}",
                       imageUrl: user.imgUrl
                     )
                   );
-                  PostService.newPost(post);
+                 var rPost = await PostService.newPost(post);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PostScreen(post: rPost,))
+                  );
                 },
               ),
             )

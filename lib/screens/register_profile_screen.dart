@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:musicomapp/models/profile.dart';
 import 'package:musicomapp/models/user.dart';
+import 'package:musicomapp/screens/MusicomPageView.dart';
 import 'package:musicomapp/screens/profile_screen.dart';
+import 'package:musicomapp/screens/user_list_screen.dart';
 import 'package:musicomapp/screens/widgets/tag_button.dart';
 import 'package:musicomapp/services/profile_service.dart';
 
@@ -172,7 +174,7 @@ class _RegisterProfileScreen extends State<RegisterProfileScreen> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => ProfileScreen(profileId: user.profileId)
+      MaterialPageRoute(builder: (context) => MusicomPageView()
       )
     );
   }

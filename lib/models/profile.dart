@@ -12,6 +12,7 @@ class Profile {
     final List<String> secondaryInstruments;
     final List<String> styles;
     final String youtubeLink; // evaluar
+    final String email;
     final List<Comment> comments;
 
     Profile({
@@ -25,6 +26,7 @@ class Profile {
       this.principalInstrument,
       this.secondaryInstruments,
       this.styles,
+      this.email,
       this.comments
     });
 
@@ -44,6 +46,7 @@ class Profile {
       principalInstrument: profile['principal_instrument'],
       secondaryInstruments: List<String>.from(profile['secondary_instrument']),
       styles: List<String>.from(profile['music_styles']),
+      email: profile["email"],
       comments: Comment.listFromJson(cJsonList)
     );
   }

@@ -34,7 +34,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         padding: EdgeInsets.all(5),
         child: RaisedButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => RegisterScreen()));
           },
           textColor: Colors.white,
@@ -59,7 +59,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         padding: EdgeInsets.all(5),
         child: RaisedButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => LoginScreen()));
           },
           textColor: Colors.white,

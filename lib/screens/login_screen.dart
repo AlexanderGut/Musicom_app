@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:musicomapp/models/profile.dart';
 import 'package:musicomapp/models/user.dart';
+import 'package:musicomapp/screens/MusicomPageView.dart';
+import 'package:musicomapp/screens/new_post_screen.dart';
 import 'package:musicomapp/screens/profile_screen.dart';
 import 'package:musicomapp/screens/register_screen.dart';
 import 'package:musicomapp/screens/user_list_screen.dart';
@@ -120,7 +122,7 @@ class _LoginScreen extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => UserListScreen())
+            builder: (context) => MusicomPageView())
         );
       } else {
       }

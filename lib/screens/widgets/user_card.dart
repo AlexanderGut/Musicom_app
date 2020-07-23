@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:musicomapp/models/profile.dart';
+import 'package:musicomapp/screens/profile_screen.dart';
 
 class UserCard extends StatelessWidget {
 
@@ -38,6 +39,13 @@ class UserCard extends StatelessWidget {
           ),
           title: Text(user.name),
           subtitle: Text(user.status),
+          onTap: () async {
+            print(user.profileId);
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfileScreen(profileId: user.profileId,))
+            );
+          },
         ),
       ),
     );
